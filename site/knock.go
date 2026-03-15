@@ -218,6 +218,10 @@ func (knockEvent *KnockEvent) readClientMsg(wsConn *websocket.Conn, mqttClient m
 			knockEvent.Name = clientMessageObject.Name // Esto funciona, confía en mí.
 
 			knockEvent.SlackMessageTS = bot.sendKnock(clientMessageObject.Name, location_map[clientMessageObject.Location])
+
+			// sub mqtt for name
+			token := mqttClient.Publish("letmein2/name", 0, false, clientMessageObject.Name)
+			token.Wait()
 		}
 	}
 }
